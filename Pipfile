@@ -9,6 +9,7 @@ pylint = "*"
 
 [packages]
 apscheduler = "*"
+slack-webhook = "*"
 
 [requires]
 python_version = "3.7"
