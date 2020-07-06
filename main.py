@@ -18,7 +18,7 @@ def cron_job():
     print("Cron job is running")
     print("Tick! The time is: %s" % datetime.now())
 
-    slack = Slack(url=config['slack-webhook'].format(os.getenv("SLACK_API_KEY")))
+    slack = Slack(url=config['webhook-url'].format(os.getenv("SLACK_API_KEY")))
     slack.post(
         text="Robert DeSoto added a new task",
         attachments=[{
