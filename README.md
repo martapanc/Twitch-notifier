@@ -38,6 +38,17 @@ or
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
+## Deploy and start cron job
+```sh
+git push heroku master
+
+heroku ps:scale clock=1
+```
+
+To view logs, run the command:
+```sh
+heroku logs --tail
+```
 ## Documentation
 
 For more information about using Python on Heroku, see these Dev Center articles:
