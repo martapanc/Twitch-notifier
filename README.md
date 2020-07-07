@@ -30,6 +30,7 @@ $ heroku open
 ```
 or
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ab92d34d3c341b1952b4417a3992b39)](https://app.codacy.com/manual/martapanc/Twitch-notifier?utm_source=github.com&utm_medium=referral&utm_content=martapanc/Twitch-notifier&utm_campaign=Badge_Grade_Dashboard)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Deploy and start cron job
