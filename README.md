@@ -1,5 +1,6 @@
 # ~ <img src="images/twitch.png" width="3%"/> to <img src="images/slack.png" width="3%"/> notifier ~
 
+Simple cron task that sends a notification to a Slack channel whenever the Twitch streamers that a user follows start a live.
 
 ### Slack Webhook setup
 In order to send messages to a Slack channel, you need to create an [Incoming Webhook](https://api.slack.com/messaging/webhooks): refer to the [webhook ReadMe](Slack-incoming-webhooks.md) for details on how to setup this.
