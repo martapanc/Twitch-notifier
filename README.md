@@ -1,4 +1,4 @@
-# Twitch to Slack notifier <img src="images/twitch.png" width="100%" /> <img src="images/slack.png" width="100%" />
+# ~ <img src="images/twitch.png" width="3%"/> to <img src="images/slack.png" width="3%"/> notifier ~
 
 ### Python: Getting Started
 
