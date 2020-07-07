@@ -47,12 +47,12 @@ heroku logs --tail
 
 For more information about using Python on Heroku, see these Dev Center articles:
 
-- [Python on Heroku](https://devcenter.heroku.com/categories/python)
-- [dotenv](https://pypi.org/project/python-dotenv/)
-- [Slack webook](https://pypi.org/project/slack-webhook/)
-- [Hiding API keys on Heroku](https://medium.com/better-programming/how-to-hide-your-api-keys-c2b952bc07e6)
-- [Errors for incoming webhooks](https://api.slack.com/changelog/2016-05-17-changes-to-errors-for-incoming-webhooks)
-- [Deploy Python cron jobs on Heroku](https://saqibameen.com/deploy-python-cron-job-scripts-on-heroku/)
-- [Twitch API Reference](https://dev.twitch.tv/docs/api/reference#get-users-follows)
+-   [Python on Heroku](https://devcenter.heroku.com/categories/python)
+-   [dotenv](https://pypi.org/project/python-dotenv/)
+-   [Slack webook](https://pypi.org/project/slack-webhook/)
+-   [Hiding API keys on Heroku](https://medium.com/better-programming/how-to-hide-your-api-keys-c2b952bc07e6)
+-   [Errors for incoming webhooks](https://api.slack.com/changelog/2016-05-17-changes-to-errors-for-incoming-webhooks)
+-   [Deploy Python cron jobs on Heroku](https://saqibameen.com/deploy-python-cron-job-scripts-on-heroku/)
+-   [Twitch API Reference](https://dev.twitch.tv/docs/api/reference#get-users-follows)
 
 
