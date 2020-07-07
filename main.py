@@ -4,9 +4,6 @@ from config import config
 import os
 import requests
 
-TWITCH_TOKEN_URL = 'https://id.twitch.tv/oauth2/token?client_id={}&client_secret={}&grant_type=client_credentials'
-TWITCH_USER_FOLLOWS_URL = 'https://api.twitch.tv/helix/users/follows?from_id={}&first=100'
-
 
 def cron_job(seconds_elapsed):
     """
@@ -14,11 +11,14 @@ def cron_job(seconds_elapsed):
     The main cronjob to be run continuously.
     """
 
-    token_rs = requests.post(TWITCH_TOKEN_URL.format(os.getenv("TWITCH_CLIENT_ID"), os.getenv("TWITCH_SECRET")))
+    print("Cron job is running")
+    print("Tick! The time is: %s" % datetime.now())
+
+    token_rs = requests.post(config['twitch-token-url'].format(os.getenv("TWITCH_CLIENT_ID"), os.getenv("TWITCH_SECRET")))
 
     if token_rs.status_code < 299:
         token = token_rs.json()['access_token']
-        url = TWITCH_USER_FOLLOWS_URL.format(os.getenv("TWITCH_USER_ID"))
+        url = config['twitch-user-follows-url'].format(os.getenv("TWITCH_USER_ID"))
         headers = {
             "Client-ID": os.getenv("TWITCH_CLIENT_ID"),
             "Authorization": "Bearer {}".format(token)
@@ -32,15 +32,12 @@ def cron_job(seconds_elapsed):
 
             live = []
             for streamer in follows:
-                live_url = "https://api.twitch.tv/helix/streams?user_id={}".format(streamer['id'])
+                live_url = config['twitch-live-url'].format(streamer['id'])
                 live_rs = requests.get(live_url, headers=headers)
                 if live_rs.status_code < 299:
                     live_data = live_rs.json()['data']
-                    # "data" has content if a streamer is live,
+                    # "data" has content if a streamer is live
                     if live_data:
-                        print("Cron job is running")
-                        print("Tick! The time is: %s" % datetime.now())
-
                         slack = Slack(url=config['webhook-url'].format(os.getenv("SLACK_API_KEY")))
                         slack.post(
                             text="{} is live".format(live_data[0]['user_name']),
