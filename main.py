@@ -1,8 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from slack_webhook import Slack
 from config import config
 import os
 import requests
+import pytz
 
 
 def cron_job(minutes_elapsed):
@@ -51,23 +52,29 @@ def cron_job(minutes_elapsed):
 
                             slack = Slack(url=config['webhook-url'].format(os.getenv("SLACK_API_KEY")))
                             slack.post(
-                                text="{} is live".format(live_data[0]['user_name']),
-                                attachments=[{
-                                    # "fallback": "Plan a vacation",
-                                    # "author_name": "Owner: rdesoto",
-                                    "title": '<a href="{}">{} is streaming: {}</a>'.format(channel_url, channel, title),
-                                    "text": "{} is streaming {} with {} viewers".format(channel, title, viewers),
-                                    "image_url": thumbnail_url,
-                                    "actions": [
-                                        {
-                                            "name": "action",
-                                            "type": "button",
-                                            "text": "Complete this task",
-                                            "style": "",
-                                            "value": "complete"
+                                blocks=[
+                                    {
+                                        "type": "section",
+                                        "text": {
+                                            "type": "mrkdwn",
+                                            "text": "*{} is live*".format(live_data[0]['user_name'])
                                         }
-                                    ]
-                                }]
+                                    },
+                                    {
+                                        "type": "section",
+                                        "text": {
+                                            "type": "mrkdwn",
+                                            "text": '<{}|{}: {}>\n{} now streaming "{}" with {} viewers ({})'
+                                                .format(channel_url, channel, title, channel, title, viewers,
+                                                        utc_to_local(live_started_at).strftime("%d %b %Y at %H:%M"))
+                                        },
+                                        "accessory": {
+                                            "type": "image",
+                                            "image_url": thumbnail_url,
+                                            "alt_text": "Twitch thumbnail"
+                                        }
+                                    }
+                                ]
                             )
                 else:
                     print("Error: Twitch Live Stream API returned {}".format(live_rs.json()))
@@ -75,3 +82,7 @@ def cron_job(minutes_elapsed):
             print("Error: Twitch User Follows API returned {}".format(follows_rs.json()))
     else:
         print("Error: Twitch Token API returned {}".format(token_rs.json()))
+
+
+def utc_to_local(utc_dt):
+    return utc_dt.replace(tzinfo=timezone.utc).astimezone(pytz.timezone('Europe/London'))
