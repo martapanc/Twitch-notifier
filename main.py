@@ -1,19 +1,23 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from slack_webhook import Slack
 from config import config
 import os
 import requests
 
 
-def cron_job(seconds_elapsed):
+def cron_job(minutes_elapsed):
     """
     Main cron job.
     The main cronjob to be run continuously.
     """
-    print("Cron job is running")
-    print("Tick! The time is: %s" % datetime.now())
+    time_of_last_update = datetime.now() - timedelta(minutes=minutes_elapsed)
+    print("Last update: {}".format(time_of_last_update))
 
-    token_rs = requests.post(config['twitch-token-url'].format(os.getenv("TWITCH_CLIENT_ID"), os.getenv("TWITCH_SECRET")))
+    print("Cron job is running")
+    print("Current time: %s" % datetime.now())
+
+    token_rs = requests.post(
+        config['twitch-token-url'].format(os.getenv("TWITCH_CLIENT_ID"), os.getenv("TWITCH_SECRET")))
 
     if token_rs.status_code < 299:
         token = token_rs.json()['access_token']
@@ -29,7 +33,6 @@ def cron_job(seconds_elapsed):
             for f in follows_rs.json()['data']:
                 follows.append({'id': f['to_id'], 'name': f['to_name']})
 
-            live = []
             for streamer in follows:
                 live_url = config['twitch-live-url'].format(streamer['id'])
                 live_rs = requests.get(live_url, headers=headers)
@@ -37,45 +40,35 @@ def cron_job(seconds_elapsed):
                     live_data = live_rs.json()['data']
                     # "data" has content if a streamer is live
                     if live_data:
-                        slack = Slack(url=config['webhook-url'].format(os.getenv("SLACK_API_KEY")))
-                        slack.post(
-                            text="{} is live".format(live_data[0]['user_name']),
-                            attachments=[{
-                                "fallback": "Plan a vacation",
-                                "author_name": "Owner: rdesoto",
-                                "title": "Plan a vacation",
-                                "text": "I've been working too hard, it's time for a break.",
-                                "actions": [
-                                    {
-                                        "name": "action",
-                                        "type": "button",
-                                        "text": "Complete this task",
-                                        "style": "",
-                                        "value": "complete"
-                                    },
-                                    {
-                                        "name": "tags_list",
-                                        "type": "select",
-                                        "text": "Add a tag...",
-                                        "data_source": "static",
-                                        "options": [
-                                            {
-                                                "text": "Launch Blocking",
-                                                "value": "launch-blocking"
-                                            },
-                                            {
-                                                "text": "Enhancement",
-                                                "value": "enhancement"
-                                            },
-                                            {
-                                                "text": "Bug",
-                                                "value": "bug"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }]
-                        )
+                        live_started_at = datetime.strptime(live_data[0]['started_at'], '%Y-%m-%dT%H:%M:%SZ')
+                        not_notified_yet = live_started_at > time_of_last_update
+                        if not_notified_yet:
+                            channel_url = config['twitch-channel-url'].format(live_data[0]['user_name'])
+                            channel = live_data[0]['user_name']
+                            title = live_data[0]['title']
+                            viewers = live_data[0]['viewer_count']
+                            thumbnail_url = live_data[0]['thumbnail_url'].format(width=100, height=75)
+
+                            slack = Slack(url=config['webhook-url'].format(os.getenv("SLACK_API_KEY")))
+                            slack.post(
+                                text="{} is live".format(live_data[0]['user_name']),
+                                attachments=[{
+                                    # "fallback": "Plan a vacation",
+                                    # "author_name": "Owner: rdesoto",
+                                    "title": '<a href="{}">{} is streaming: {}</a>'.format(channel_url, channel, title),
+                                    "text": "{} is streaming {} with {} viewers".format(channel, title, viewers),
+                                    "image_url": thumbnail_url,
+                                    "actions": [
+                                        {
+                                            "name": "action",
+                                            "type": "button",
+                                            "text": "Complete this task",
+                                            "style": "",
+                                            "value": "complete"
+                                        }
+                                    ]
+                                }]
+                            )
                 else:
                     print("Error: Twitch Live Stream API returned {}".format(live_rs.json()))
         else:

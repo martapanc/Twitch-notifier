@@ -56,5 +56,5 @@ For more information about using Python on Heroku, see these Dev Center articles
 -   [Errors for incoming webhooks](https://api.slack.com/changelog/2016-05-17-changes-to-errors-for-incoming-webhooks)
 -   [Deploy Python cron jobs on Heroku](https://saqibameen.com/deploy-python-cron-job-scripts-on-heroku/)
 -   [Twitch API Reference](https://dev.twitch.tv/docs/api/reference#get-users-follows)
-
+-   [Slack message layout](https://api.slack.com/messaging/composing/layouts)
 
