@@ -1,31 +1,23 @@
 # ~ <img src="images/twitch.png" width="3%"/> to <img src="images/slack.png" width="3%"/> notifier ~
 
-### Python: Getting Started
 
-A barebones Django app, which can easily be deployed to Heroku.
+### Slack Webhook setup
+In order to send messages to a Slack channel, you need to create an [Incoming Webhook](https://api.slack.com/messaging/webhooks): refer to the [webhook ReadMe](Slack-incoming-webhooks.md) for details on how to setup this.
 
-This application supports the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
+The Webhook url obtained will look like `https://hooks.slack.com/services/xxx/yyy/zzzz`. The last three parts, `xxx/yyy/zzzz`, need to be placed in the `.env` file, which must remain a local file as it contains API secrets.
 
-## Running Locally
 
-Make sure you have Python 3.7 [installed locally](http://install.python-guide.org). To push to Heroku, you'll need to install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli), as well as [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
+### Running Locally
+
+Make sure you have Python 3.7 [installed locally](http://install.python-guide.org). To push to Heroku, you'll need to install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
 
 ```sh
-$ git clone https://github.com/heroku/python-getting-started.git
-$ cd python-getting-started
+$ git clone git@github.com:martapanc/Twitch-notifier.git
+$ cd Twitch-notifier
 
-$ python3 -m venv getting-started
 $ pip install -r requirements.txt
-
-$ createdb python_getting_started
-
-$ python manage.py migrate
-$ python manage.py collectstatic
-
-$ heroku local
+$ python3 cronjob.py
 ```
-
-Your app should now be running on [localhost:5000](http://localhost:5000/).
 
 ## Deploying to Heroku
 
