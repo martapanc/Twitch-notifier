@@ -27,8 +27,8 @@ def cron_job(minutes_elapsed):
             "Client-ID": os.getenv("TWITCH_CLIENT_ID"),
             "Authorization": "Bearer {}".format(token)
         }
-
         follows_rs = requests.get(url, headers=headers)
+
         if follows_rs.status_code < 299:
             follows = []
             for f in follows_rs.json()['data']:
@@ -37,6 +37,7 @@ def cron_job(minutes_elapsed):
             for streamer in follows:
                 live_url = config['twitch-live-url'].format(streamer['id'])
                 live_rs = requests.get(live_url, headers=headers)
+
                 if live_rs.status_code < 299:
                     live_data = live_rs.json()['data']
                     # "data" has content if a streamer is live
@@ -52,6 +53,7 @@ def cron_job(minutes_elapsed):
 
                             slack = Slack(url=config['webhook-url'].format(os.getenv("SLACK_API_KEY")))
                             slack.post(
+                                text="{} is live".format(channel),
                                 blocks=[
                                     {
                                         "type": "section",
@@ -76,6 +78,7 @@ def cron_job(minutes_elapsed):
                                     }
                                 ]
                             )
+                            print(" - {} streaming on {}".format(channel, utc_to_local(live_started_at)))
                 else:
                     print("Error: Twitch Live Stream API returned {}".format(live_rs.json()))
         else:
