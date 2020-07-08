@@ -4,7 +4,7 @@ Simple cron task that sends a notification to a Slack channel whenever the Twitc
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ab92d34d3c341b1952b4417a3992b39)](https://app.codacy.com/manual/martapanc/Twitch-notifier?utm_source=github.com&utm_medium=referral&utm_content=martapanc/Twitch-notifier&utm_campaign=Badge_Grade_Dashboard)
 
-### Slack Webhook setup
+## Slack Webhook setup
 In order to send messages to a Slack channel, you need to create an [Incoming Webhook](https://api.slack.com/messaging/webhooks): refer to the [webhook ReadMe](Slack-incoming-webhooks.md) for details on how to setup this.
 
 The Webhook url obtained will look like `https://hooks.slack.com/services/xxx/yyy/zzzz`. The last three parts, `xxx/yyy/zzzz`, need to be placed in the `.env` file, which must remain a local file as it contains API secrets.
@@ -24,11 +24,11 @@ python3 cronjob.py
 ## Deploying to Heroku
 
 ```sh
-$ heroku create
-$ git push heroku master
+heroku create
+git push heroku master
 
-$ heroku run python manage.py migrate
-$ heroku open
+heroku run python manage.py migrate
+heroku open
 ```
 or
 
@@ -58,4 +58,3 @@ For more information about using Python on Heroku, see these Dev Center articles
 -   [Deploy Python cron jobs on Heroku](https://saqibameen.com/deploy-python-cron-job-scripts-on-heroku/)
 -   [Twitch API Reference](https://dev.twitch.tv/docs/api/reference#get-users-follows)
 -   [Slack message layout](https://api.slack.com/messaging/composing/layouts)
-

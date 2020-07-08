@@ -8,10 +8,6 @@ import pytz
 
 
 def cron_job(minutes_elapsed):
-    """
-    Main cron job.
-    The main cronjob to be run continuously.
-    """
     utc_time = datetime.utcnow()
     time_of_last_update = utc_time - timedelta(minutes=minutes_elapsed)
     print("Last update: {}".format(utc_to_local(time_of_last_update)))
