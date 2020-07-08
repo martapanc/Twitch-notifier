@@ -2,7 +2,7 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 # Main cronjob function.
-from main import cron_job
+from main import cron_job, utc_to_local
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -20,7 +20,7 @@ scheduler = BlockingScheduler()
 def scheduled_job():
     # Determine the frequency of the updates based on the time of day
     minutes_elapsed = schedule[datetime.utcnow().hour]
-    print("Adjusting time intervals to {} minutes, on {}".format(minutes_elapsed, datetime.now()))
+    print("Adjusting time intervals to {} minutes, on {}".format(minutes_elapsed, utc_to_local(datetime.now())))
 
     # Create an instance of scheduler and add function.
     scheduler.add_job(lambda: cron_job(minutes_elapsed), "interval", minutes=minutes_elapsed)
