@@ -11,8 +11,8 @@ def cron_job(minutes_elapsed):
     Main cron job.
     The main cronjob to be run continuously.
     """
-    time_of_last_update = datetime.now() - timedelta(minutes=minutes_elapsed)
-    print("Last update: {}".format(time_of_last_update))
+    time_of_last_update = datetime.utcnow() - timedelta(minutes=minutes_elapsed)
+    print("Last update: {}".format(utc_to_local(time_of_last_update)))
 
     print("Cron job is running")
     print("Current time: %s" % datetime.now())
