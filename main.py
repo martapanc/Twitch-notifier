@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
+
 from slack_webhook import Slack
-from config import config
+from config import config, schedule
 import os
 import requests
 import pytz
@@ -11,11 +12,12 @@ def cron_job(minutes_elapsed):
     Main cron job.
     The main cronjob to be run continuously.
     """
-    time_of_last_update = datetime.utcnow() - timedelta(minutes=minutes_elapsed)
+    utc_time = datetime.utcnow()
+    time_of_last_update = utc_time - timedelta(minutes=minutes_elapsed)
     print("Last update: {}".format(utc_to_local(time_of_last_update)))
 
     print("Cron job is running")
-    print("Current time: %s" % datetime.now())
+    print("Current time: %s" % utc_to_local(utc_time))
 
     token_rs = requests.post(
         config['twitch-token-url'].format(os.getenv("TWITCH_CLIENT_ID"), os.getenv("TWITCH_SECRET")))

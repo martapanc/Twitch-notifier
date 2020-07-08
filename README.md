@@ -50,6 +50,7 @@ heroku logs --tail
 For more information about using Python on Heroku, see these Dev Center articles:
 
 -   [Python on Heroku](https://devcenter.heroku.com/categories/python)
+-   [APScheduler - Cron](https://apscheduler.readthedocs.io/en/v2.1.2/cronschedule.html)
 -   [dotenv](https://pypi.org/project/python-dotenv/)
 -   [Slack webook](https://pypi.org/project/slack-webhook/)
 -   [Hiding API keys on Heroku](https://medium.com/better-programming/how-to-hide-your-api-keys-c2b952bc07e6)
