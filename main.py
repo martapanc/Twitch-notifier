@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
 from slack_webhook import Slack
-from config import config, schedule
+from config import config
 import os
 import requests
 import pytz
