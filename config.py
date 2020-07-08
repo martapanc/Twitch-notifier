@@ -4,7 +4,8 @@ config = {
     'twitch-live-url': 'https://api.twitch.tv/helix/streams?user_id={}',
     'twitch-token-url': 'https://id.twitch.tv/oauth2/token?client_id={}&client_secret={}&grant_type=client_credentials',
     'twitch-user-follows-url': 'https://api.twitch.tv/helix/users/follows?from_id={}&first=100',
-    'twitch-channel-url': 'https://www.twitch.tv/{}'
+    'twitch-channel-url': 'https://www.twitch.tv/{}',
+    'twitch-games-url': 'https://api.twitch.tv/helix/games?id={}'
 }
 
 schedule = {

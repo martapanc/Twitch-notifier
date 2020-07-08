@@ -48,7 +48,9 @@ def cron_job(minutes_elapsed):
                         not_notified_yet = live_started_at > time_of_last_update
 
                         channel = live_data[0]['user_name']
-                        print(" - {} streaming on {}".format(channel, utc_to_local(live_started_at)))
+                        game = get_game_from_id(live_data[0]['game_id'], headers)
+                        print(' - {} streaming "{}" on {}'.format(channel, game, utc_to_local(live_started_at))
+                              + ("- notified" if not_notified_yet else ""))
 
                         if not_notified_yet:
                             channel_url = config['twitch-channel-url'].format(live_data[0]['user_name'])
@@ -64,16 +66,18 @@ def cron_job(minutes_elapsed):
                                         "type": "section",
                                         "text": {
                                             "type": "mrkdwn",
-                                            "text": "*{} is live*".format(live_data[0]['user_name'])
+                                            "text": "*{} is live: {}*".format(live_data[0]['user_name'], game)
                                         }
                                     },
                                     {
                                         "type": "section",
                                         "text": {
                                             "type": "mrkdwn",
-                                            "text": '<{}|{}: {}>\n{} now streaming "{}" with {} viewers ({})'
-                                                .format(channel_url, channel, title, channel, title, viewers,
-                                                        utc_to_local(live_started_at).strftime("%d %b %Y at %H:%M"))
+                                            "text": '<{url}|{channel}: {title}>\n{channel} now streaming "{game} - {title}" with {viewers} viewers ({time})'
+                                                .format(url=channel_url, channel=channel, title=title, viewers=viewers,
+                                                        game=game,
+                                                        time=utc_to_local(live_started_at).strftime(
+                                                            "%d %b %Y at %H:%M"))
                                         },
                                         "accessory": {
                                             "type": "image",
@@ -83,7 +87,6 @@ def cron_job(minutes_elapsed):
                                     }
                                 ]
                             )
-                            print(" - {} streaming on {} - already notified".format(channel, utc_to_local(live_started_at)))
                 else:
                     print("Error: Twitch Live Stream API returned {}".format(live_rs.json()))
         else:
@@ -94,3 +97,13 @@ def cron_job(minutes_elapsed):
 
 def utc_to_local(utc_dt):
     return utc_dt.replace(tzinfo=timezone.utc).astimezone(pytz.timezone('Europe/London'))
+
+
+def get_game_from_id(game_id, headers):
+    if game_id == 509658:
+        return "Just Chatting"
+    games_rs = requests.get(config['twitch-games-url'].format(game_id), headers=headers)
+    if games_rs.status_code < 299:
+        return games_rs.json()['data'][0]['name']
+    else:
+        return "n/a"

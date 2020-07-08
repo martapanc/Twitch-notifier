@@ -20,7 +20,7 @@ scheduler = BlockingScheduler()
 def scheduled_job():
     # Determine the frequency of the updates based on the time of day
     minutes_elapsed = schedule[datetime.utcnow().hour]
-    print("Adjusting time intervals to {} minutes, at {}".format(minutes_elapsed, datetime.now()))
+    print("Adjusting time intervals to {} minutes, on {}".format(minutes_elapsed, datetime.now()))
 
     # Create an instance of scheduler and add function.
     scheduler.add_job(lambda: cron_job(minutes_elapsed), "interval", minutes=minutes_elapsed)
