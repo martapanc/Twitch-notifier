@@ -44,9 +44,12 @@ def cron_job(minutes_elapsed):
                     if live_data:
                         live_started_at = datetime.strptime(live_data[0]['started_at'], '%Y-%m-%dT%H:%M:%SZ')
                         not_notified_yet = live_started_at > time_of_last_update
+
+                        channel = live_data[0]['user_name']
+                        print(" - {} streaming on {}".format(channel, utc_to_local(live_started_at)))
+
                         if not_notified_yet:
                             channel_url = config['twitch-channel-url'].format(live_data[0]['user_name'])
-                            channel = live_data[0]['user_name']
                             title = live_data[0]['title']
                             viewers = live_data[0]['viewer_count']
                             thumbnail_url = live_data[0]['thumbnail_url'].format(width=100, height=75)
@@ -78,7 +81,7 @@ def cron_job(minutes_elapsed):
                                     }
                                 ]
                             )
-                            print(" - {} streaming on {}".format(channel, utc_to_local(live_started_at)))
+                            print(" - {} streaming on {} - already notified".format(channel, utc_to_local(live_started_at)))
                 else:
                     print("Error: Twitch Live Stream API returned {}".format(live_rs.json()))
         else:
