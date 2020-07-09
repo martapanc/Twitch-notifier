@@ -7,6 +7,10 @@ import os
 import requests
 import pytz
 
+from live_queue import *
+
+live_queue = get_queue()
+
 
 def cron_job(minutes_elapsed):
     utc_time = datetime.utcnow()
@@ -34,6 +38,7 @@ def cron_job(minutes_elapsed):
             for streamer in follows:
                 live_url = config['twitch-live-url'].format(streamer['id'])
                 live_rs = requests.get(live_url, headers=headers)
+                channel = streamer['name']
 
                 if live_rs.status_code < 299:
                     live_data = live_rs.json()['data']
@@ -41,13 +46,14 @@ def cron_job(minutes_elapsed):
                     if live_data:
                         live_started_at = datetime.strptime(live_data[0]['started_at'], '%Y-%m-%dT%H:%M:%SZ')
                         not_notified_yet = live_started_at > time_of_last_update
-
-                        channel = live_data[0]['user_name']
                         game = get_game_from_id(live_data[0]['game_id'], headers)
+
                         print(('🟣 ' if not_notified_yet else ' - ') + '{} streaming "{}" on {}'
                               .format(channel, game, utc_to_local(live_started_at)))
 
-                        if not_notified_yet:
+                        if not is_in_queue(channel):
+                            add_to_queue(channel)
+
                             channel_url = config['twitch-channel-url'].format(live_data[0]['user_name'])
                             title = live_data[0]['title']
                             viewers = live_data[0]['viewer_count']
@@ -82,10 +88,14 @@ def cron_job(minutes_elapsed):
                                     }
                                 ]
                             )
+                    else:
+                        remove_from_queue(channel)
                 else:
                     print('Error: Twitch Live Stream API returned {}'.format(live_rs.json()))
         else:
             print('Error: Twitch User Follows API returned {}'.format(follows_rs.json()))
+
+        print('🎥 Live channels: {} ({})'.format(live_queue, len(live_queue)))
     else:
         print('Error: Twitch Token API returned {}'.format(token_rs.json()))
 
