@@ -2,20 +2,19 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 # Main cronjob function.
-from main import cron_job
+from main import cron_job, utc_to_local
 
 from dotenv import load_dotenv
 from pathlib import Path
+from datetime import datetime
 
 # Setup functions to read from .env file
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
-seconds_elapsed = 30
 
-cron_job(seconds_elapsed)
-
-# Create an instance of scheduler and add function.
 scheduler = BlockingScheduler()
-scheduler.add_job(lambda: cron_job(seconds_elapsed), "interval", seconds=seconds_elapsed)
+scheduler.add_job(lambda: cron_job(5), trigger='cron', hour="*", minute="*/5", next_run_time=datetime.now())
 
-scheduler.start()
+if __name__ == "__main__":
+    print('🌅 Script started at {}'.format(utc_to_local(datetime.utcnow())))
+    scheduler.start()
