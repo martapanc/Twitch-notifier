@@ -46,8 +46,9 @@ def cron_job(minutes_elapsed):
                         channel = live_data[0]['user_name']
                         game = get_game_from_id(live_data[0]['game_id'], headers)
                         print(' - {} streaming "{}" on {}'.format(channel, game, utc_to_local(live_started_at))
-                              + ("- notified" if not_notified_yet else ""))
+                              + (" - notified" if not_notified_yet else ""))
 
+                        # TODO: implement a list to prevent double notifications when interval changes
                         if not_notified_yet:
                             channel_url = config['twitch-channel-url'].format(live_data[0]['user_name'])
                             title = live_data[0]['title']
