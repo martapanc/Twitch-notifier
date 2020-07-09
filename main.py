@@ -1,10 +1,14 @@
 from datetime import datetime, timedelta, timezone
 
 from slack_webhook import Slack
+
+from NotificationQueue import get_queue, add_to_queue, clear_older_queue, is_already_in_queue
 from config import config
 import os
 import requests
 import pytz
+
+queue = get_queue()
 
 
 def cron_job(minutes_elapsed):
@@ -47,7 +51,8 @@ def cron_job(minutes_elapsed):
                               .format(channel, game, utc_to_local(live_started_at)))
 
                         # TODO: implement a list to prevent double notifications when interval changes
-                        if not_notified_yet:
+                        if not_notified_yet and not is_already_in_queue(channel):
+                            add_to_queue([channel, live_started_at])
                             channel_url = config['twitch-channel-url'].format(live_data[0]['user_name'])
                             title = live_data[0]['title']
                             viewers = live_data[0]['viewer_count']
@@ -86,6 +91,9 @@ def cron_job(minutes_elapsed):
                     print('Error: Twitch Live Stream API returned {}'.format(live_rs.json()))
         else:
             print('Error: Twitch User Follows API returned {}'.format(follows_rs.json()))
+
+        print(queue)
+        clear_older_queue()
     else:
         print('Error: Twitch Token API returned {}'.format(token_rs.json()))
 

@@ -16,7 +16,7 @@ load_dotenv(dotenv_path=env_path)
 scheduler = BlockingScheduler()
 
 
-@scheduler.scheduled_job('cron', hour='0-23')
+@scheduler.scheduled_job('cron', hour='0-23', minute='*/10')
 def scheduled_job():
     # Determine the frequency of the updates based on the time of day
     minutes_elapsed = schedule[datetime.utcnow().hour]
