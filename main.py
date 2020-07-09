@@ -48,11 +48,10 @@ def cron_job(minutes_elapsed):
                         not_notified_yet = live_started_at > time_of_last_update
                         game = get_game_from_id(live_data[0]['game_id'], headers)
 
-                        print(('🟣 ' if not_notified_yet else ' - ') + '{} streaming "{}" on {}'
-                              .format(channel, game, utc_to_local(live_started_at)))
-
                         if not is_in_queue(channel):
                             add_to_queue(channel)
+
+                            print('🟣 {} streaming "{}" on {}'.format(channel, game, utc_to_local(live_started_at)))
 
                             channel_url = config['twitch-channel-url'].format(live_data[0]['user_name'])
                             title = live_data[0]['title']
@@ -88,6 +87,8 @@ def cron_job(minutes_elapsed):
                                     }
                                 ]
                             )
+                        else:
+                            print('- {} streaming "{}" on {}'.format(channel, game, utc_to_local(live_started_at)))
                     else:
                         remove_from_queue(channel)
                 else:
