@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
 from slack_webhook import Slack
+
 from config import config
 import os
 import requests
@@ -46,7 +47,6 @@ def cron_job(minutes_elapsed):
                         print(('🟣 ' if not_notified_yet else ' - ') + '{} streaming "{}" on {}'
                               .format(channel, game, utc_to_local(live_started_at)))
 
-                        # TODO: implement a list to prevent double notifications when interval changes
                         if not_notified_yet:
                             channel_url = config['twitch-channel-url'].format(live_data[0]['user_name'])
                             title = live_data[0]['title']
