@@ -10,7 +10,7 @@ import pytz
 def cron_job(minutes_elapsed):
     utc_time = datetime.utcnow()
     time_of_last_update = utc_time - timedelta(minutes=minutes_elapsed)
-    print("⏰  Last update: {}".format(utc_to_local(time_of_last_update)))
+    print("⏰ Last update: {}".format(utc_to_local(time_of_last_update)))
     print("🕙 Current time: %s" % utc_to_local(utc_time))
 
     token_rs = requests.post(

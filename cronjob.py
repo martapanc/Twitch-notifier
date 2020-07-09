@@ -20,7 +20,7 @@ scheduler = BlockingScheduler()
 def scheduled_job():
     # Determine the frequency of the updates based on the time of day
     minutes_elapsed = schedule[datetime.utcnow().hour]
-    print("🔄️Adjusting time intervals to {} minutes, on {}".format(minutes_elapsed, utc_to_local(datetime.now())))
+    print("🔄️ Adjusting time intervals to {} minutes, on {}".format(minutes_elapsed, utc_to_local(datetime.now())))
 
     # Reschedule Notifier based on new time interval
     scheduler.remove_job('notifier')
