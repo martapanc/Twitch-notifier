@@ -20,7 +20,7 @@ scheduler = BlockingScheduler()
 def scheduled_job():
     # Determine the frequency of the updates based on the time of day
     minutes_elapsed = schedule[datetime.utcnow().hour]
-    print("Adjusting time intervals to {} minutes, on {}".format(minutes_elapsed, utc_to_local(datetime.now())))
+    print("🔄️Adjusting time intervals to {} minutes, on {}".format(minutes_elapsed, utc_to_local(datetime.now())))
 
     # Reschedule Notifier based on new time interval
     scheduler.remove_job('notifier')
@@ -30,7 +30,7 @@ def scheduled_job():
 
 
 if __name__ == "__main__":
-    print("Script started at {}".format(utc_to_local(datetime.utcnow())))
+    print("🌅 Script started at {}".format(utc_to_local(datetime.utcnow())))
     # Initiate notifier job with static intervals
     scheduler.add_job(lambda: cron_job(5), trigger='interval', minutes=5, id='notifier', next_run_time=datetime.now())
     scheduler.start()
