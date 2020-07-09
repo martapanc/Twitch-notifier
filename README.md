@@ -4,7 +4,8 @@ Simple cron task that sends a notification to a Slack channel whenever the Twitc
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ab92d34d3c341b1952b4417a3992b39)](https://app.codacy.com/manual/martapanc/Twitch-notifier?utm_source=github.com&utm_medium=referral&utm_content=martapanc/Twitch-notifier&utm_campaign=Badge_Grade_Dashboard)
 
-<img src="images/sample.png" width="70%" /> <img src="images/logs.png" width="50%" />
+<img src="images/sample.png" width="60%" /> <img src="images/logs.png" width="60%" /> 
+[logging provided by [PaperTrail](https://www.papertrail.com/)]
 
 ## Slack Webhook setup
 In order to send messages to a Slack channel, you need to create an [Incoming Webhook](https://api.slack.com/messaging/webhooks): refer to the [webhook ReadMe](Slack-incoming-webhooks.md) for details on how to setup this.
