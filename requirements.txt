@@ -1,4 +1,0 @@
-APScheduler~=3.6.3
-slack-webhook
-python-dotenv
-requests

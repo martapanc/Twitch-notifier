@@ -1,1 +1,1 @@
-clock: python cronjob.py
+clock: python cron_job.py
