@@ -14,7 +14,7 @@ load_dotenv(dotenv_path=env_path)
 
 scheduler = BlockingScheduler()
 
-scheduler.add_job(lambda: cron_job(), trigger='cron', hour="*", minute="*/5", next_run_time=datetime.now())
+scheduler.add_job(cron_job, trigger='cron', hour="*", minute="*/5", next_run_time=datetime.now())
 
 if __name__ == "__main__":
     print('🌅 Script started at {}'.format(utc_to_local(datetime.utcnow())))

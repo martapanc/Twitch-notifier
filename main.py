@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 from slack_webhook import Slack
 
@@ -7,7 +7,7 @@ import os
 import requests
 import pytz
 
-from live_queue import *
+from live_queue import remove_from_queue, is_in_queue, get_queue, add_to_queue
 
 live_queue = get_queue()
 
@@ -54,7 +54,8 @@ def cron_job():
                             viewers = live_data[0]['viewer_count']
                             thumbnail_url = live_data[0]['thumbnail_url'].format(width=100, height=75)
 
-                            send_slack_notification(channel, channel_url, game, started_at, thumbnail_url, title, viewers)
+                            send_slack_notification(channel, channel_url, game, started_at, thumbnail_url, title,
+                                                    viewers)
                         else:
                             print('- {} streaming "{}" on {}'.format(channel, game, utc_to_local(started_at)))
                     else:
