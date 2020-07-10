@@ -7,30 +7,3 @@ config = {
     'twitch-channel-url': 'https://www.twitch.tv/{}',
     'twitch-games-url': 'https://api.twitch.tv/helix/games?id={}'
 }
-
-schedule = {
-    0: 5,
-    1: 5,
-    2: 60,
-    3: 60,
-    4: 60,
-    5: 60,
-    6: 60,
-    7: 60,
-    8: 30,
-    9: 30,
-    10: 30,
-    11: 10,
-    12: 10,
-    13: 10,
-    14: 10,
-    15: 10,
-    16: 5,
-    17: 5,
-    18: 5,
-    19: 5,
-    20: 5,
-    21: 5,
-    22: 5,
-    23: 5
-}
