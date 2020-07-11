@@ -16,7 +16,4 @@ def remove_from_queue(channel):
 
 
 def is_in_queue(channel):
-    for live in live_queue:
-        if live == channel:
-            return True
-    return False
+    return channel in live_queue
