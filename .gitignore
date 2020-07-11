@@ -5,4 +5,3 @@ staticfiles
 db.sqlite3
 getting-started/*
 .idea
-.env
