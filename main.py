@@ -110,7 +110,7 @@ def get_game_from_id(game_id, headers):
     if game_id == 509658:
         return 'Just Chatting'
     games_rs = requests.get(config['twitch-games-url'].format(game_id), headers=headers)
-    if games_rs.status_code < 299:
+    if games_rs.status_code < 299 and len(games_rs.json()['data']) > 0:
         return games_rs.json()['data'][0]['name']
     else:
         return 'n/a'
