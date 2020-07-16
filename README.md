@@ -50,7 +50,9 @@ heroku logs --tail
 ```
 ## Documentation
 
-For more information about using Python on Heroku, see these Dev Center articles:
+[Twitch API ReadMe](Twitch-API.md)
+
+More information and useful resources:
 
 -   [Python on Heroku](https://devcenter.heroku.com/categories/python)
 -   [APScheduler - Cron](https://apscheduler.readthedocs.io/en/v2.1.2/cronschedule.html)
