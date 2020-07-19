@@ -56,8 +56,6 @@ def cron_job():
 
                             send_slack_notification(channel, channel_url, game, started_at, thumbnail_url, title,
                                                     viewers)
-                        else:
-                            print('- {} streaming "{}" on {}'.format(channel, game, utc_to_local(started_at)))
                     else:
                         remove_from_queue(channel)
                 else:
