@@ -64,3 +64,4 @@ More information and useful resources:
 -   [Twitch API Reference](https://dev.twitch.tv/docs/api/reference#get-users-follows)
 -   [Slack message layout](https://api.slack.com/messaging/composing/layouts)
 -   [aiohttp](https://docs.aiohttp.org/en/stable/client_quickstart.html#json-response-content)
+-   [async web requests](https://medium.com/hackernoon/how-to-run-asynchronous-web-requests-in-parallel-with-python-3-5-without-aiohttp-264dc0f8546)
