@@ -12,6 +12,7 @@ apscheduler = "*"
 slack-webhook = "*"
 python-dotenv = "*"
 requests = "*"
+aiohttp = "*"
 
 [requires]
 python_version = "3.7"
