@@ -92,10 +92,8 @@ def send_slack_notification(channel, channel_url, game, live_started_at, thumbna
                 'text': {
                     'type': 'mrkdwn',
                     'text': '<{url}|{channel}: {title}>\n{channel} now streaming "{game} - {title}" with {viewers} viewers ({time})'
-                        .format(url=channel_url, channel=channel, title=title, viewers=viewers,
-                                game=game,
-                                time=utc_to_local(live_started_at).strftime(
-                                    '%d %b %Y at %H:%M'))
+                        .format(url=channel_url, channel=channel, title=title, viewers=viewers, game=game,
+                                time=utc_to_local(live_started_at).strftime('%d %b %Y at %H:%M'))
                 },
                 'accessory': {
                     'type': 'image',

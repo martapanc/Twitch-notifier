@@ -1,5 +1,4 @@
 # Package Scheduler
-from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 # Main cronjob function.
@@ -18,13 +17,12 @@ load_dotenv(dotenv_path=env_path)
 
 if __name__ == "__main__":
     scheduler = AsyncIOScheduler()
-
     scheduler.add_job(cron_job, trigger='cron', hour="*", minute="*/5", next_run_time=datetime.now())
 
     print('🌅 Script started at {}'.format(utc_to_local(datetime.utcnow())))
     scheduler.start()
 
-    # Execution will block here until Ctrl+C (Ctrl+Break on Windows) is pressed.
+    # Execution will block here until Ctrl+C is pressed.
     try:
         asyncio.get_event_loop().run_forever()
     except (KeyboardInterrupt, SystemExit):
