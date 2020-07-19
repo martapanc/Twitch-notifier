@@ -63,3 +63,4 @@ More information and useful resources:
 -   [Deploy Python cron jobs on Heroku](https://saqibameen.com/deploy-python-cron-job-scripts-on-heroku/)
 -   [Twitch API Reference](https://dev.twitch.tv/docs/api/reference#get-users-follows)
 -   [Slack message layout](https://api.slack.com/messaging/composing/layouts)
+-   [aiohttp](https://docs.aiohttp.org/en/stable/client_quickstart.html#json-response-content)
